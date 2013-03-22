@@ -1,10 +1,12 @@
 
 /* Gridless
+ * Requires custom Modernizr build to include csscalc()
+ * http://modernizr.com/download/ Non-core detects
 ------------------------------------------------------------*/
 
 $gutter: 20px;
 // On by default. Use "false" to turn margins off and use padding for the gutter instead 
-$margins: true;
+//$margins: true;
 
 // Nothing below this line needs to be edited
 // ----------------------------------------------------------
@@ -27,8 +29,11 @@ $one12:						8.333333%;
 $two3:						66.666667%;
 $two4:						50%;
 $two5:						40%;
+$two6:						$one3;
 $two7:						28.571429%;
+$two8:						$one4;
 $two9:						22.222222%;
+$two10:						$one5;
 $two11:						18.181818%;
 $two12:						$one6;
 
@@ -67,7 +72,7 @@ $six11:						54.545454%;
 $six12:						$one2;
 
 $seven8:						87.5%;
-$seven9:						77.777778;
+$seven9:						77.777778%;
 $seven10:					70%;
 $seven11:					63.636364%;
 $seven12:					58.333333%;
@@ -105,7 +110,7 @@ $eleven12:					91.666667%;
 }
 
 @mixin gl-box() {
-	margin-left: -1*$gutter;
+	//margin-left: -1*$gutter;
 	&::before,
 	&::after {
 		content: "";
@@ -115,23 +120,20 @@ $eleven12:					91.666667%;
 	&::after {
 		clear: both;
 	}
+	.csscalc & {
+		margin-left: -1*$gutter;
+	}
 }
 
 @mixin gl-span($width:auto) {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	display: block;
+	@include box-sizing(border-box);
 	float: left;
 	margin-bottom: $gutter;
+	padding: 0 $gutter/2;
 	width: $width;
-	// set $gutter to 0 if using nested divs for non-compliant browers
-	@if $margins == false {
-		padding-left: $gutter;
-		width: $width;
-	}
-	@else {
+	.csscalc & {
 		margin-left: $gutter;
+		padding: 0;
 		@include calc(width, "#{$width} - #{$gutter}");
 	}
 }
@@ -190,6 +192,7 @@ $eleven12:					91.666667%;
 
 
 /* Columns */
+// gl-cols([true,false], [left,right], $width)
 @mixin gl-cols($sidebar, $side, $width) {
 	@include clearfix();
 	&>* {
