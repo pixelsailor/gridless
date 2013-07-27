@@ -1,0 +1,10 @@
+// Personal set of mixins to extend Bootstrap
+
+// Set HTML font size to enable rem usage
+html { font-size: 62.5%; } // 1rem will equal 10px
+
+// rem font-size
+@mixin font-size($size: 1.4) {
+	font-size: ($size * 10) + px;
+	font-size: $size + rem;
+}
